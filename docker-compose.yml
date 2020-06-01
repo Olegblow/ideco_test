@@ -7,4 +7,5 @@ services:
             - '8080:8080'
         volumes: 
             - ./:/app
-        command: python entry.py
+        command: >
+            bash -c "cd app && python app/app.py" 

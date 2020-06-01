@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width">
+                <title>{{ service_name }}</title>
+        </head>
+        <body>
+                <div>
+                        <h2>Status:</h2>
+                        {% if is_active %}
+                        <p>Активно</p>
+                        {% else %}
+                        <p>Не активно</p>
+                        {% endif %}
+                </div>
+                <div>
+                        Кнопочки.
+                        <button id='start' onclick="onStart()">Start</button>
+                        <button id='stop' onclick="onStop()">Stop</button>
+                        <button id='restart' onclick="onRestart()">Restart</button>
+                <div/>
+
+
+            <script>
+           async function onStart(){
+            const res = await fetch('', {
+                method: 'POST',
+                    body: JSON.stringify({button:'start'})
+            });
+            alert('start');
+           };
+           async function onStop(){
+            const res = await fetch('', {
+                method: 'POST',
+                    body: JSON.stringify({button:'stop'})
+            });
+            alert('stop');
+           };
+           async function onRestart(){
+            const res = await fetch('', {
+                method: 'POST',
+                    body: JSON.stringify({button:'restart'})
+            });
+            alert('stop');
+           }
+
+
+            </script>
+        </body>
+</html>
