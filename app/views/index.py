@@ -1,5 +1,6 @@
 import aiohttp_jinja2
 from aiohttp import web
+from json import JSONDecodeError
 
 from utils import Service
 
@@ -17,14 +18,25 @@ class ServiseView(web.View):
         return context
 
     async def post(self):
-        data = await self.request.json()
-        button = data.get('button')
-        response = {'status': 'ok'}
         functions = {
             'start': self.service.start,
             'stop': self.service.stop,
             'restart': self.service.restart
         }
-        function = functions[button]
-        await function()
-        return web.json_response(response)
+        try:
+            data = await self.request.json()
+        except JSONDecodeError:
+            response = {'status': 'bad request'}
+            status = 400
+        else:
+            button = data.get('button')
+            try:
+                function = functions[button]
+            except KeyError:
+                response = {'status': 'request'}
+                status = 400
+            else:
+                await function()
+                response = {'status': 'ok'}
+                status = 200
+        return web.json_response(response, status=status)

@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import pathlib
 import uvloop
 
@@ -16,6 +17,7 @@ TEMPLATES_ROOT = pathlib.Path(__file__).parent / 'templates'
 def init_app() -> web.Application:
     """Инициализирует web приложение."""
     app = web.Application()
+    setup_jinja(app)
     setup_routes(app)
     return app
 
@@ -27,8 +29,8 @@ def setup_jinja(app: web.Application) -> None:
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
     app = init_app()
-    setup_jinja(app)
     web.run_app(app, host='0.0.0.0', port='8080')
 
 
