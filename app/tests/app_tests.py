@@ -50,3 +50,20 @@ async def test_service_class():
     await service.restart()
     restart_is_active = await service.is_active
     assert restart_is_active is True
+
+
+@pytest.mark.parametrize(
+    'parameters',
+    (
+        # body status
+        ({}, 400),
+        ({"is_flagged": ""}, 400),
+        ({"is_flagged": "yes"}, 200),
+        ({"is_flagged": "no"}, 200)
+    )
+)
+async def test_redis_view(client, parameters):
+    """Тест проверки ответов от вьюхи установление флага."""
+    data, status = parameters
+    response = await client.post('/redis', json=data)
+    assert response.status == status

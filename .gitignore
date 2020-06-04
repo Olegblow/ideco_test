@@ -5,6 +5,7 @@
 .venv/
 /.idea/
 /.vscode/
+/.ropeproject/
 /env/
 *.pyc
 *.sql

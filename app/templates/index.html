@@ -16,9 +16,17 @@
                 </div>
                 <div>
                         Кнопочки.
-                        <button id='start' onclick="onStart()">Start</button>
+                        {{ is_flagged }}
+                        <button id='start'
+                            {% if not is_flagged %} disabled {% endif %}
+                            onclick="onStart()">Start</button>
                         <button id='stop' onclick="onStop()">Stop</button>
-                        <button id='restart' onclick="onRestart()">Restart</button>
+                        <button id='restart'
+                            {% if not is_flagged %} disabled {% endif %}
+                            onclick="onRestart()">Restart</button>
+                        </br>
+                        <input type="checkbox" name="is_flagged" id="is_flagged" onclick="send_flagg()"
+                            {% if is_flagged %} checked {% endif %}> Включить сервис</br>
                 <div/>
 
 
@@ -40,10 +48,28 @@
            async function onRestart(){
             const res = await fetch('', {
                 method: 'POST',
-                    body: JSON.stringify({button:'restart'})
+                body: JSON.stringify({button:'restart'})
             });
             alert('stop');
-           }
+           };
+        async function send_flagg(){
+            data = {is_flagged: 'yes'}
+            
+            if (document.getElementById('is_flagged').checked) {
+                const res = await fetch('/redis',{
+                    method: 'POST',
+                    body: JSON.stringify({is_flagged: 'yes'})
+                });
+                document.location.reload(true);
+            } else {
+                const res = await fetch('/redis',{
+                    method: 'POST',
+                    body: JSON.stringify({is_flagged: 'no'})
+                });
+                document.location.reload(true);
+            }
+        };
+
 
 
             </script>
