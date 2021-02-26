@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 install_requires = [
-    'aiohttp==3.6.2',
+    'aiohttp==3.7.4',
     'aioredis==1.3.1',
     'async-timeout==3.0.1',
     'uvloop==0.14.0',
